@@ -1,4 +1,4 @@
-import kotlin.math.floor
+import kotlin.math.sqrt
 
 fun main() {
     val squareCabin = SquareCabin(6, 50.0)
@@ -11,7 +11,6 @@ fun main() {
         println("Material: ${buildingMaterial}")
         println("Has Room ? ${hasRoom()}")
         println("Area of the room: ${floorArea()}")
-
     }
 
     with(roundHut) {
@@ -19,7 +18,12 @@ fun main() {
         println("Capacity: ${capacity}")
         println("Material: ${buildingMaterial}")
         println("Has Room ? ${hasRoom()}")
+        getRoom()
+        println ("Has Room ? ${hasRoom()}")
+        getRoom()
         println("Area of the room: ${floorArea()}")
+        println("Carpet size: ${calculateMaxCarpetSize()}")
+
     }
 
     with(roundTower) {
@@ -27,6 +31,7 @@ fun main() {
         println("Capacity: ${capacity}")
         println("Material: ${buildingMaterial}")
         println("Has Room ? ${hasRoom()}")
+        println("Carpet size: ${calculateMaxCarpetSize()}")
         println("Area of the room: ${floorArea()}")
     }
 }
@@ -41,11 +46,20 @@ abstract class Dwelling(private var residents: Int) {
 
     abstract fun floorArea(): Double
 
+    fun getRoom() {
+        if (capacity < residents) {
+            residents++
+            println("You got a room")
+        } else {
+            println("Sorry, at capacity and no room left.")
+        }
+    }
 }
 
 class SquareCabin(residents: Int, val length: Double) : Dwelling(residents) {
     override val buildingMaterial = "Wood"
     override val capacity = 6
+
 
     override fun floorArea(): Double {
         return length * length
@@ -59,6 +73,11 @@ open class RoundHut(residents: Int, val radius: Double) : Dwelling(residents) {
 
     override fun floorArea(): Double {
         return Math.PI * radius * radius
+    }
+
+    fun calculateMaxCarpetSize(): Double {
+        val diameter = 2 * radius
+        return sqrt(diameter * diameter / 2)
     }
 }
 
